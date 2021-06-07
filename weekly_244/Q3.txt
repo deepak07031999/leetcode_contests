@@ -1,0 +1,50 @@
+You are given a binary string s. You are allowed to perform two types of operations on the string in any sequence:
+
+Type-1: Remove the character at the start of the string s and append it to the end of the string.
+Type-2: Pick any character in s and flip its value, i.e., if its value is '0' it becomes '1' and vice-versa.
+Return the minimum number of type-2 operations you need to perform such that s becomes alternating.
+
+Code :
+class Solution {
+   
+public:
+    int MinimumFlips(string s, int n)
+{
+    int arr[n];
+    for(int i = 0; i < n; i++)arr[i] = (s[i] == '1' ? 1 : 0);
+    int odd[n + 1];
+    int even[n + 1];
+    odd[0] = 0;
+    even[0] = 0;
+    for(int i = 0; i < n; i++)
+    {
+        if (i % 2 != 0)
+        {
+            odd[i + 1] = odd[i] +(arr[i] == 1 ? 1 : 0);
+            even[i + 1] = even[i] +(arr[i] == 0 ? 1 : 0);
+        }
+        else
+        {
+            odd[i + 1] = odd[i] +(arr[i] == 0 ? 1 : 0);
+            even[i + 1] = even[i] +(arr[i] == 1 ? 1 : 0);
+        }
+    }
+    int minimum = min(odd[n], even[n]);
+ 
+    for(int i = 0; i < n; i++)
+    {
+        if (n % 2 != 0)
+        {
+            minimum = min(minimum,odd[n] -odd[i + 1] +even[i + 1]);
+            minimum = min(minimum,even[n] -even[i + 1] + odd[i + 1]);
+        }
+    }
+    return minimum;
+}
+    int minFlips(string s) {
+        
+        int c=0,c2=0;
+        int n=s.length();
+        return MinimumFlips(s,n);     
+    }
+};
